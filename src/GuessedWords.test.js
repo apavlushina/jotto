@@ -16,13 +16,14 @@ test("does not throw warning with expecred props", () => {
 });
 
 describe("if there are no words guessed", () => {
+  let wrapper;
+  beforeEach(() => {
+    wrapper = setup({ guessedWords: [] });
+  });
   test("renders without error", () => {
-    const wrapper = setup({ guessedWords: [] });
     const component = findByTestAttr(wrapper, "component-guessed-words");
     expect(component.length).toBe(1);
   });
-  test("renders instructions to guess a word", () => {
-    const wrapper = setup({ guessedWords: [] });
-  });
+  test("renders instructions to guess a word", () => {});
 });
 describe("if there are words guessed", () => {});
