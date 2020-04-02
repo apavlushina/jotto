@@ -25,7 +25,7 @@ class Input extends React.PureComponent {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return { success: false };
 };
 
 export default connect(mapStateToProps)(Input);
