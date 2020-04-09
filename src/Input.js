@@ -1,6 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import { guessWord } from "./actions";
+
 class Input extends React.PureComponent {
   render() {
     const contents = this.props.success ? null : (
@@ -24,8 +26,8 @@ class Input extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => {
-  return { success: false };
+const mapStateToProps = ({ success }) => {
+  return { success };
 };
 
-export default connect(mapStateToProps)(Input);
+export default connect(mapStateToProps, { guessWord })(Input);
