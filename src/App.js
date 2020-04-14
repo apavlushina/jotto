@@ -6,7 +6,11 @@ import Congrats from "./Congrats";
 import Input from "./Input";
 import { getSecretWord } from "./actions/index";
 
-class App extends React.PureComponent {
+export class UnconnectedApp extends React.PureComponent {
+  componentDidMount() {
+    this.props.getSecretWord();
+  }
+
   render() {
     return (
       <div className="container">
@@ -24,4 +28,4 @@ const mapStateToProps = state => {
   return { success, guessedWords, secretWord };
 };
 
-export default connect(mapStateToProps, { getSecretWord })(App);
+export default connect(mapStateToProps, { getSecretWord })(UnconnectedApp);
