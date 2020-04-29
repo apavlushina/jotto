@@ -7,7 +7,11 @@ import Input from "./Input";
 import { getSecretWord } from "./actions/index";
 
 function App() {
-  return <div data-test="compomemt-app" />;
+  return (
+    <div data-test="component-app">
+      <Input />
+    </div>
+  );
 }
 
 export default App;
