@@ -21,7 +21,7 @@ function Input({ secretWord }) {
             setCurrentGuess("");
           }}
           className="btn btn-primary mb-2"
-          Submit
+          type="submit"
         />
       </form>
     </div>

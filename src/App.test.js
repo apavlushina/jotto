@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { mount } from "enzyme";
 
 import { storeFactory, findByTestAttr } from "../tests/testUnits";
 import App, { UnconnectedApp } from "./App";
@@ -20,7 +20,7 @@ const setup = () => {
   mockGetSecretWord.mockClear();
   hookActions.getSecretWord = mockGetSecretWord;
 
-  return shallow(<App />);
+  return mount(<App />);
 };
 
 test("App renders without error", () => {
@@ -35,6 +35,13 @@ describe("getSecretWord calls", () => {
 
     // check to see if secret word was updated
     expect(mockGetSecretWord).toHaveBeenCalled();
+  });
+  test("secretWord does not update on App update", () => {
+    const wrapper = setup();
+    mockGetSecretWord.mockClear();
+    wrapper.update();
+
+    expect(mockGetSecretWord).not.toHaveBeenCalled();
   });
 });
 
