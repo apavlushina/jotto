@@ -22,7 +22,9 @@ function Input({ secretWord }) {
           }}
           className="btn btn-primary mb-2"
           type="submit"
-        />
+        >
+          Submt
+        </button>
       </form>
     </div>
   );
