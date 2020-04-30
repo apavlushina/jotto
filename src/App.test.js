@@ -4,6 +4,10 @@ import { shallow } from "enzyme";
 import { storeFactory, findByTestAttr } from "../tests/testUnits";
 import App, { UnconnectedApp } from "./App";
 
+import hookActions from "./actions/hookActions";
+
+const mockGetSecretWord = jest.fn();
+
 // const setup = (state = {}) => {
 //   const store = storeFactory(state);
 //   const wrapper = shallow(<App store={store} />)
@@ -13,6 +17,9 @@ import App, { UnconnectedApp } from "./App";
 // };
 
 const setup = () => {
+  mockGetSecretWord.mockClear();
+  hookActions.getSecretWord = mockGetSecretWord;
+
   return shallow(<App />);
 };
 
@@ -20,6 +27,15 @@ test("App renders without error", () => {
   const wrapper = setup();
   const component = findByTestAttr(wrapper, "component-app");
   expect(component.length).toBe(1);
+});
+
+describe("getSecretWord calls", () => {
+  test("getSecretword gets called on App mount", () => {
+    setup();
+
+    // check to see if secret word was updated
+    expect(mockGetSecretWord).toHaveBeenCalled();
+  });
 });
 
 // test("getSecretWord runs on App mount", () => {
