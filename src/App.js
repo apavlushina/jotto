@@ -5,27 +5,42 @@ import GuessedWords from "./GuessedWords";
 import Congrats from "./Congrats";
 import Input from "./Input";
 import { getSecretWord } from "./actions/index";
+import hookActions from "./actions/hookActions";
 
-export class UnconnectedApp extends React.PureComponent {
-  componentDidMount() {
-    this.props.getSecretWord();
-  }
-
-  render() {
-    return (
-      <div className="container">
-        <h1>Jotto</h1>
-        <Congrats success={this.props.success} />
-        <GuessedWords guessedWords={this.props.guessedWords} />
-        <Input />
-      </div>
-    );
+function reducer(state, action) {
+  switch (action.type) {
+    case "setSecretWord":
+      return { ...state, secretWord: action.payload };
+    default:
+      throw new Error(`Invalid action type: ${action.type}`);
   }
 }
 
-const mapStateToProps = state => {
-  const { success, guessedWords, secretWord } = state;
-  return { success, guessedWords, secretWord };
-};
+function App() {
+  const [state, dispatch] = React.useReducer(reducer, { secretWord: null });
+  const setSecretWord = secretWord =>
+    dispatch({ type: "setSecretWord", payload: secretWord });
 
-export default connect(mapStateToProps, { getSecretWord })(UnconnectedApp);
+  React.useEffect(() => {
+    hookActions.getSecretWord(setSecretWord);
+  }, []);
+
+  if (!state.secretWord) {
+    return (
+      <div className="container" data-test="spinner">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+        <p>Loading secret word</p>
+      </div>
+    );
+  }
+
+  return (
+    <div data-test="component-app">
+      <Input secretWord={state.secretWord} />
+    </div>
+  );
+}
+
+export default App;

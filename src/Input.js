@@ -1,52 +1,37 @@
 import React from "react";
-import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-import { guessWord } from "./actions";
-
-export class UnconnectedInput extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = { currentGuess: null };
-
-    this.submitGuessedWord = this.submitGuessedWord.bind(this);
-  }
-
-  submitGuessedWord(evt) {
-    evt.preventDefault();
-    const guessedWord = this.state.currentGuess;
-    if (guessedWord && guessedWord.length > 0) {
-      this.props.guessWord(guessedWord);
-      this.setState({ currentGuess: "" });
-    }
-  }
-  render() {
-    const contents = this.props.success ? null : (
+function Input({ secretWord }) {
+  const [currentGuess, setCurrentGuess] = React.useState("");
+  return (
+    <div data-test="component-input">
       <form className="form-inline">
         <input
           data-test="input-box"
-          type="text"
           className="mb-2 mx-sm-3"
+          type="test"
           placeholder="enter guess"
-          value={this.state.currentGuess}
-          onChange={evt => this.setState({ currentGuess: evt.target.value })}
-        ></input>
+          value={currentGuess}
+          onChange={evt => setCurrentGuess(evt.target.value)}
+        />
         <button
           data-test="submit-button"
-          type="submit"
+          onClick={evt => {
+            evt.preventDefault();
+            setCurrentGuess("");
+          }}
           className="btn btn-primary mb-2"
-          onClick={evt => this.submitGuessedWord(evt)}
+          type="submit"
         >
-          Submit
+          Submt
         </button>
       </form>
-    );
-    return <div data-test="component-input">{contents}</div>;
-  }
+    </div>
+  );
 }
 
-const mapStateToProps = ({ success }) => {
-  return { success };
+Input.propTypes = {
+  secretWord: PropTypes.string.isRequired
 };
 
-export default connect(mapStateToProps, { guessWord })(UnconnectedInput);
+export default Input;
